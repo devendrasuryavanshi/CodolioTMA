@@ -4,8 +4,8 @@ import ThemeSwitcher from './ThemeSwitcher';
 
 const Navbar = () => {
     return (
-        <nav class="bg-white border-gray-200 dark:bg-gray-900 w-full fixed top-0 left-0 z-50">
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <nav class="bg-white border-gray-200 dark:bg-gray-900 w-full fixed top-0 left-0 z-20">
+            <div class=" flex flex-wrap items-center justify-between p-4">
                 <a href="https://codolio.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="https://codolio.com/codolio_assets/gif-owl-transparent.GIF" class="h-8" alt="Flowbite Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap text-black dark:text-white">Codolio TMA</span>

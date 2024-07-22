@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Delete, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 const Card = ({ transactions, setTransactions }) => {
     const [deleteIndex, setDeleteIndex] = useState(null);
