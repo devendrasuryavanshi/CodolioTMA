@@ -24,7 +24,7 @@ const InputCard = ({ addTransaction, setShowInputCard }) => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white dark:bg-slate-800 rounded-lg w-96 overflow-hidden">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="flex justify-between items-center mb-4">
