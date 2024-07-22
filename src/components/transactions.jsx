@@ -79,7 +79,7 @@ const Transactions = () => {
     return (
         <div className='w-full flex flex-col justify-center items-center mb-10'>
             <PieChart transactions={newTransactionData} />
-            <div className="sm:w-full md:w-[70%]">
+            <div className="sm:w-[90%] md:w-[70%]">
                 <div className='flex flex-col md:flex-row w-full h-full gap-4'>
                     <input
                         type="search"
@@ -92,7 +92,7 @@ const Transactions = () => {
                     <div className="flex gap-4">
                         <select
                             id="type"
-                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${typeFilter !== "" ? "bg-green-500 dark:bg-green-900 text-white" : ""}`}
+                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${typeFilter !== "" ? "bg-green-500 dark:bg-green-900 text-white" : ""}`}
                             onChange={(e) => setTypeFilter(e.target.value)}
                         >
                             <option value="">Type</option>
@@ -102,7 +102,7 @@ const Transactions = () => {
 
                         <select
                             id="category"
-                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${categoryFilter !== "" ? "bg-green-500 dark:bg-green-900 text-white" : ""}`}
+                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${categoryFilter !== "" ? "bg-green-500 dark:bg-green-900 text-white" : ""}`}
                             onChange={(e) => setCategoryFilter(e.target.value)}
                         >
                             <option value="">Category</option>
@@ -119,7 +119,7 @@ const Transactions = () => {
 
                         <select
                             id="currency"
-                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${currencyFilter !== "" ? "bg-green-500 dark:bg-green-900 text-white" : ""}`}
+                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${currencyFilter !== "" ? "bg-green-500 dark:bg-green-900 text-white" : ""}`}
                             onChange={(e) => setCurrencyFilter(e.target.value)}
                         >
                             <option value="">Currency</option>
