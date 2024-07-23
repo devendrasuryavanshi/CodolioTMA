@@ -4,6 +4,9 @@ import Card from './Card';
 import { Plus } from 'lucide-react';
 import InputCard from './InputCard';
 import PieChart from './PieChart';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -75,6 +78,25 @@ const Transactions = () => {
         setShowInputCard(false);
     };
 
+    const downloadPDF = () => {
+        const doc = new jsPDF();
+        doc.text('Transaction Data', 14, 16);
+        doc.autoTable({
+            startY: 20,
+            head: [['Title', 'Amount', 'DateTime', 'Note', 'Category', 'Currency', 'Type']],
+            body: newTransactionData.map(transaction => [
+                transaction.title,
+                transaction.amount,
+                new Date(transaction.dateTime).toLocaleString(),
+                transaction.note,
+                transaction.category,
+                transaction.currency,
+                transaction.type
+            ])
+        });
+        doc.save('transactions.pdf');
+    };
+
 
     return (
         <div className='w-full flex flex-col justify-center items-center mb-10'>
@@ -130,6 +152,7 @@ const Transactions = () => {
                         </select>
                     </div>
                 </div>
+                <button onClick={downloadPDF} className="mt-4 p-2 bg-blue-500 text-white rounded-lg">Download PDF</button>
                 <div className='mt-4'>
                     <Card transactions={transactions} setTransactions={setTransactions} />
                 </div>

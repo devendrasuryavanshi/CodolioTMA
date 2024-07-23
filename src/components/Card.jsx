@@ -4,6 +4,8 @@ import { Trash2 } from "lucide-react";
 const Card = ({ transactions, setTransactions }) => {
     const [deleteIndex, setDeleteIndex] = useState(null);
     const [showConfirm, setShowConfirm] = useState(false);
+    const [showPopup, setShowPopup] = useState(null);
+    const [editData, setEditData] = useState(null);
 
     const getFormattedDate = (dateString) => {
         const parts = dateString.split("/");
@@ -44,6 +46,42 @@ const Card = ({ transactions, setTransactions }) => {
         setShowConfirm(false);
     };
 
+    const handleEditClick = (groupIndex, transactionIndex) => {
+        setShowPopup({ groupIndex, transactionIndex });
+        setEditData(transactions[groupIndex].transactions[transactionIndex]);
+    };
+
+    const handleSaveClick = () => {
+        const updatedTransactions = transactions.map((group, groupIndex) => {
+            if (groupIndex === showPopup.groupIndex) {
+                const updatedGroupTransactions = group.transactions.map(
+                    (transaction, index) => {
+                        if (index === showPopup.transactionIndex) {
+                            return editData;
+                        }
+                        return transaction;
+                    }
+                );
+                return { ...group, transactions: updatedGroupTransactions };
+            }
+            return group;
+        });
+
+        setTransactions(updatedTransactions);
+        setShowPopup(null);
+        setEditData(null);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditData({ ...editData, [name]: value });
+    };
+
+    const handleCancelClick = () => {
+        setShowPopup(null);
+        setEditData(null);
+    };
+
     return (
         <>
             <div className="flex flex-col gap-4">
@@ -69,9 +107,12 @@ const Card = ({ transactions, setTransactions }) => {
                             {group.transactions.map((transaction, transactionIndex) => (
                                 <div
                                     key={transactionIndex}
-                                    className="flex justify-between items-center bg-slate-100 dark:bg-slate-950 p-2 rounded-lg"
+                                    className="flex justify-between items-center bg-slate-100 dark:bg-slate-950 p-2 rounded-lg cursor-pointer"
                                 >
-                                    <div className="flex flex-col sm:flex-row gap-4">
+                                    <div 
+                                        onClick={() => handleEditClick(groupIndex, transactionIndex)}
+                                        className="flex flex-col sm:flex-row gap-4"
+                                    >
                                         <span className="font-bold text-sm bg-gray-200 dark:bg-slate-800 text-gray-800 dark:text-white rounded-lg px-2 py-2">
                                             {transaction.category}
                                         </span>
@@ -81,6 +122,7 @@ const Card = ({ transactions, setTransactions }) => {
                                     </div>
                                     <div className="flex gap-2">
                                         <span
+                                            onClick={() => handleEditClick(groupIndex, transactionIndex)}
                                             className={`font-bold text-lg ${transaction.type === "Income"
                                                 ? "text-green-600"
                                                 : "text-pink-500"
@@ -119,6 +161,103 @@ const Card = ({ transactions, setTransactions }) => {
                             >
                                 Delete
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showPopup && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white dark:bg-slate-800 rounded-lg w-96 overflow-hidden p-4">
+                        <h2 className="text-lg dark:text-white text-black font-bold mb-4">
+                            Edit Transaction
+                        </h2>
+                        <div className="flex flex-col gap-4">
+                            <div className='flex items-center justify-between gap-2 px-4'>
+                                <label className='font-bold text-xl text-black dark:text-white' htmlFor="dateTime">Date:</label>
+                                <input
+                                    type="datetime-local"
+                                    name="dateTime"
+                                    value={editData.dateTime}
+                                    onChange={handleChange}
+                                    className="p-2 rounded-lg bg-gray-200 dark:bg-slate-900 text-black dark:text-white w-full"
+                                />
+                            </div>
+                            <div className='flex items-center justify-between gap-2 px-4'>
+                                <label className='font-bold text-xl text-black dark:text-white' htmlFor="amount">Amount:</label>
+                                <input
+                                    type="text"
+                                    name="amount"
+                                    value={editData.amount}
+                                    onChange={handleChange}
+                                    className="p-2 rounded-lg bg-gray-200 dark:bg-slate-900 text-black dark:text-white w-full"
+                                />
+                            </div>
+                            <div className='flex items-center justify-between gap-2 px-4'>
+                                <label className='font-bold text-xl text-black dark:text-white' htmlFor="currency">Currency:</label>
+                                <select
+                                    name="currency"
+                                    value={editData.currency}
+                                    onChange={handleChange}
+                                    className="p-2 rounded-lg bg-gray-200 dark:bg-slate-900 text-black dark:text-white w-full"
+                                >
+                                    <option value="INR">INR</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="JPY">JPY</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            </div>
+                            <div className='flex items-center justify-between gap-2 px-4'>
+                                <label className='font-bold text-xl text-black dark:text-white' htmlFor="category">Category:</label>
+                                <select
+                                    name="category"
+                                    value={editData.category}
+                                    onChange={handleChange}
+                                    className="p-2 rounded-lg bg-gray-200 dark:bg-slate-900 text-black dark:text-white w-full"
+                                >
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Investment">Investment</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Salary">Salary</option>
+                                    <option value="Freelance">Freelance</option>
+                                </select>
+                            </div>
+                            <div className='flex items-center justify-between gap-2 px-4'>
+                                <label className='font-bold text-xl text-black dark:text-white' htmlFor="title">Title:</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    value={editData.title}
+                                    onChange={handleChange}
+                                    className="p-2 rounded-lg bg-gray-200 dark:bg-slate-900 text-black dark:text-white w-full"
+                                />
+                            </div>
+                            <div className='flex flex-col gap-2 px-4'>
+                                <label className='font-bold text-xl self-start text-black dark:text-white' htmlFor="note">Notes:</label>
+                                <textarea
+                                    name="note"
+                                    value={editData.note}
+                                    onChange={handleChange}
+                                    className="p-2 rounded-lg bg-gray-200 dark:bg-slate-900 text-black dark:text-white w-full"
+                                />
+                            </div>
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={handleCancelClick}
+                                    className="bg-gray-300 text-black px-4 py-2 rounded-lg w-full"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSaveClick}
+                                    className="bg-green-700 text-white px-4 py-2 rounded-lg w-full"
+                                >
+                                    Edit
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
